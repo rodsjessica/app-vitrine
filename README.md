@@ -1,97 +1,351 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 🛍️ Vitrine
 
-# Getting Started
+Aplicativo mobile desenvolvido em **React Native** para simular um catálogo de produtos, permitindo visualizar, pesquisar e filtrar produtos por categoria.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+O projeto foi desenvolvido com foco em **organização de código, componentização, reutilização, performance e testes**, utilizando dados locais para simular o consumo de uma API.
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 📱 Sobre o projeto
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+O **Vitrine** é um catálogo de produtos desenvolvido em React Native.
 
-```sh
-# Using npm
-npm start
+A aplicação permite:
 
-# OR using Yarn
+- 🔎 Pesquisar produtos
+- 🏷️ Filtrar produtos por categoria
+- 📦 Visualizar uma lista de produtos
+- 📄 Acessar os detalhes de um produto
+- ⏳ Exibir estados de carregamento
+- ⚠️ Exibir estados de erro
+- 📭 Exibir estado vazio quando não houver resultados
+
+Além das funcionalidades da aplicação, o projeto possui uma massa de dados com **5.000 produtos**, utilizada para avaliar e trabalhar questões de performance da lista de produtos.
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+- **React Native**
+- **TypeScript**
+- **React Navigation**
+- **Styled Components**
+- **Jest**
+- **React Native Testing Library**
+- **Yarn**
+
+### Principais conceitos aplicados
+
+- Componentização
+- Hooks
+- Custom Hooks
+- Separação de responsabilidades
+- Design System / Theme
+- Tipagem com TypeScript
+- Testes automatizados
+- Otimização de listas com `FlatList`
+- Organização por features
+
+---
+
+## 📂 Estrutura do projeto
+
+```text
+src/
+├── assets/
+│   └── images/
+│
+├── components/
+│   ├── Button/
+│   ├── EmptyState/
+│   ├── ErrorState/
+│   ├── Loading/
+│   └── ProductCard/
+│
+├── features/
+│   └── products/
+│       ├── components/
+│       │   ├── CategoryFilter/
+│       │   ├── ProductList/
+│       │   └── SearchInput/
+│       │
+│       ├── data/
+│       │   └── products.json
+│       │
+│       ├── hooks/
+│       │   └── useProducts.ts
+│       │
+│       ├── screens/
+│       │   ├── CatalogScreen/
+│       │   └── ProductDetailsScreen/
+│       │
+│       ├── services/
+│       │   └── productsService.ts
+│       │
+│       └── types/
+│           └── Product.ts
+│
+├── navigation/
+│   └── AppNavigator.tsx
+│
+└── theme/
+    ├── colors.ts
+    ├── spacing.ts
+    └── ...
+```
+
+A organização utiliza uma abordagem baseada em **features**, mantendo componentes, hooks, serviços, telas e tipos relacionados ao domínio de produtos próximos uns dos outros.
+
+---
+
+## 🚀 Como executar o projeto
+
+### Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado e configurado:
+
+- Node.js
+- Yarn
+- Android Studio
+- Android SDK
+- Java/JDK
+- Ambiente React Native
+
+Para mais informações sobre a configuração do ambiente, consulte a documentação oficial do React Native.
+
+### 1. Instalar as dependências
+
+Na raiz do projeto:
+
+```bash
+yarn
+```
+
+### 2. Iniciar o Metro
+
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
+### 3. Executar no Android
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+Em outro terminal:
 
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
+```bash
 yarn android
 ```
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 📦 Gerando os produtos
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+O projeto possui um script para geração da massa de dados utilizada pela aplicação.
 
-```sh
-bundle install
+Para gerar os produtos:
+
+```bash
+yarn generate:products
 ```
 
-Then, and every time you update your native dependencies, run:
+Esse comando gera/atualiza o arquivo:
 
-```sh
-bundle exec pod install
+```text
+src/features/products/data/products.json
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+A massa de dados contém **5.000 produtos**, permitindo utilizar o aplicativo também como cenário para análise e otimização de performance.
 
-```sh
-# Using npm
-npm run ios
+---
 
-# OR using Yarn
-yarn ios
+## 🧪 Testes
+
+Para executar toda a suíte de testes:
+
+```bash
+yarn test --runInBand
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Para executar especificamente os testes do hook `useProducts`:
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+yarn test __tests__/useProducts.test.tsx --runInBand
+```
 
-## Step 3: Modify your app
+### Por que `--runInBand`?
 
-Now that you have successfully run the app, let's make changes!
+O parâmetro `--runInBand` faz com que o Jest execute os testes de forma sequencial, utilizando um único processo.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+Isso pode ser útil em ambientes de desenvolvimento ou CI quando queremos uma execução mais previsível e com menor utilização de recursos.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+---
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## ⚡ Performance
 
-## Congratulations! :tada:
+Uma das etapas do projeto foi analisar o comportamento da aplicação utilizando uma lista com **5.000 produtos**.
 
-You've successfully run and modified your React Native App. :partying_face:
+### Baseline
 
-### Now what?
+Com 5.000 produtos, o carregamento inicial apresentou aproximadamente:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+> **7 segundos**
 
-# Troubleshooting
+Esse resultado foi utilizado como ponto de partida para identificar possíveis gargalos.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+### Estratégia de otimização
 
-# Learn More
+A análise de performance segue uma abordagem incremental:
 
-To learn more about React Native, take a look at the following resources:
+```text
+5.000 produtos
+      ↓
+Medir baseline
+      ↓
+Identificar gargalos
+      ↓
+Otimizar FlatList
+      ↓
+Medir novamente
+      ↓
+Comparar resultados
+```
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+O objetivo é evitar otimizações prematuras e conseguir medir o impacto real de cada alteração.
+
+---
+
+## 🎨 Design
+
+O aplicativo utiliza um tema centralizado para manter consistência visual.
+
+### Cores principais
+
+| Cor | Valor |
+|---|---|
+| Primary | `#2563EB` |
+| Background | `#F8FAFC` |
+| Surface | `#FFFFFF` |
+| Text | `#0F172A` |
+| Text Secondary | `#64748B` |
+| Border | `#E2E8F0` |
+| Error | `#DC2626` |
+
+O espaçamento também é centralizado no tema, facilitando a manutenção e evolução da interface.
+
+---
+
+## 🧩 Arquitetura
+
+O projeto busca manter as responsabilidades separadas:
+
+```text
+Screen
+  ↓
+Hook
+  ↓
+Service
+  ↓
+Data
+```
+
+Por exemplo, a tela de catálogo não precisa conhecer os detalhes de como os produtos são carregados.
+
+O `useProducts` concentra a lógica relacionada aos produtos, enquanto o `productsService` é responsável pela origem dos dados.
+
+Essa separação facilita futuramente substituir o JSON local por uma API real sem precisar reestruturar toda a interface.
+
+---
+
+## 🔄 Dados
+
+Atualmente os produtos são carregados a partir de um arquivo JSON local.
+
+```text
+productsService.ts
+        ↓
+products.json
+```
+
+A estrutura foi pensada para permitir uma futura substituição por uma API REST.
+
+O projeto também possui `axios` instalado para facilitar essa evolução.
+
+---
+
+## 📋 Funcionalidades
+
+### Catálogo
+
+- Listagem de produtos
+- Busca por nome
+- Filtro por categoria
+- Contagem de resultados
+- Estados de loading
+- Estados de erro
+- Estado vazio
+
+### Produto
+
+- Visualização dos detalhes
+- Imagem
+- Nome
+- Categoria
+- Informações do produto
+
+### Performance
+
+- Massa de dados com 5.000 produtos
+- Utilização de `FlatList`
+- Análise de tempo de carregamento
+- Estratégia incremental de otimização
+
+### Qualidade
+
+- TypeScript
+- Componentização
+- Hooks reutilizáveis
+- Testes automatizados
+- Separação de responsabilidades
+
+---
+
+## 📜 Scripts disponíveis
+
+| Comando | Descrição |
+|---|---|
+| `yarn start` | Inicia o Metro |
+| `yarn android` | Executa o aplicativo no Android |
+| `yarn generate:products` | Gera a massa de produtos |
+| `yarn test --runInBand` | Executa todos os testes |
+| `yarn test __tests__/useProducts.test.tsx --runInBand` | Executa os testes do `useProducts` |
+
+---
+
+## 🎯 Objetivo do projeto
+
+O Vitrine foi desenvolvido como um projeto prático para demonstrar conhecimentos em desenvolvimento mobile com React Native, com atenção especial a:
+
+- Arquitetura e organização de código
+- Experiência do usuário
+- Componentização
+- TypeScript
+- Testes
+- Performance
+- Manutenibilidade
+
+O projeto também serve como base para evoluções futuras, como integração com uma API real, autenticação, persistência de dados e novas funcionalidades de catálogo.
+
+---
+
+## 👩‍💻 Desenvolvimento
+
+Projeto desenvolvido com **React Native CLI**, utilizando **TypeScript** e **Yarn**.
+
+---
+
+## 📚 Referências
+
+- [React Native](https://reactnative.dev/)
+- [React Navigation](https://reactnavigation.org/)
+- [Styled Components](https://styled-components.com/)
+- [Jest](https://jestjs.io/)
+- [React Native Testing Library](https://callstack.github.io/react-native-testing-library/)
